@@ -7,7 +7,8 @@ from app.models.schemas import LogError
 
 class TestServices(unittest.TestCase):
     @patch("app.agents.log_analysis_agent.LogAnalysisAgent.analyze")
-    def test_log_service(self, mock_analyze):
+    @patch("app.services.log_service.VectorStore")
+    def test_log_service(self, mock_vs, mock_analyze):
         mock_analyze.return_value = [LogError(error_type="ERROR", error_message="Test error")]
 
         service = LogService()
@@ -18,6 +19,7 @@ class TestServices(unittest.TestCase):
         result = loop.run_until_complete(run())
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].error_message, "Test error")
+        mock_vs.return_value.add_texts.assert_called_once()
 
     @patch("app.parsers.html_parser.HTMLParser.parse")
     @patch("app.agents.doc_analysis_agent.DocAnalysisAgent.process_docs")

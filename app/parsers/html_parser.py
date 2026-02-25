@@ -2,6 +2,7 @@ import httpx
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from typing import Set
+from loguru import logger
 
 class HTMLParser:
     def __init__(self, max_depth: int = 2):
@@ -13,12 +14,13 @@ class HTMLParser:
             return ""
 
         self.visited_urls.add(url)
-        print(f"Crawling: {url}")
+        logger.debug(f"Crawling: {url} (depth: {depth})")
 
         try:
             async with httpx.AsyncClient(follow_redirects=True) as client:
                 response = await client.get(url, timeout=10.0)
                 if response.status_code != 200:
+                    logger.warning(f"Failed to fetch {url}: Status {response.status_code}")
                     return ""
 
                 soup = BeautifulSoup(response.text, "html.parser")
@@ -43,5 +45,5 @@ class HTMLParser:
 
                 return text
         except Exception as e:
-            print(f"Error crawling {url}: {e}")
+            logger.error(f"Error crawling {url}: {e}")
             return ""
