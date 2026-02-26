@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
-    OPENROUTER_API_KEY: str
+    OPENROUTER_API_KEY: Optional[str] = None
     OPENROUTER_MODEL: str = "openai/gpt-3.5-turbo"
     LOG_LEVEL: str = "INFO"
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
@@ -22,7 +22,9 @@ class Settings(BaseSettings):
 
     @field_validator("OPENROUTER_API_KEY")
     @classmethod
-    def strip_key(cls, v: str) -> str:
-        return v.strip()
+    def strip_key(cls, v: Optional[str]) -> Optional[str]:
+        if v:
+            return v.strip()
+        return v
 
 settings = Settings()

@@ -46,8 +46,9 @@ The project follows a modular architecture:
 
 4. Configure environment variables:
    ```bash
-   cp .env.example .env
-   # Edit .env and add your OPENROUTER_API_KEY
+   export OPENROUTER_API_KEY=your_key_here
+   # OR create a .env file:
+   # OPENROUTER_API_KEY=your_key_here
    ```
 
 ### Running the Application
@@ -68,6 +69,7 @@ Analyzes a log file against documentation.
 
 ## Production Readiness
 - Environment-based configuration.
-- Structured logging and error handling.
+- Structured logging with loguru.
 - Pydantic models for validation.
 - Decoupled components for scalability.
+- NO user authentication required.

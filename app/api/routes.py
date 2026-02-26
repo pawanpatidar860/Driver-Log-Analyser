@@ -5,7 +5,6 @@ from app.agents.decision_agent import DecisionAgent
 from app.models.schemas import FinalResponse, LogError
 from typing import Optional
 from loguru import logger
-import os
 
 router = APIRouter()
 log_service = LogService()
@@ -49,6 +48,11 @@ async def analyze(
             extracted_errors=extracted_errors,
             root_cause=root_cause
         )
+    except ValueError as ve:
+        if "OPENROUTER_API_KEY" in str(ve):
+            logger.error(str(ve))
+            raise HTTPException(status_code=500, detail=str(ve))
+        raise HTTPException(status_code=500, detail=str(ve))
     except HTTPException:
         raise
     except Exception as e:
