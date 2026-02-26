@@ -5,6 +5,10 @@ from app.api.routes import router as api_router
 from app.config.settings import settings
 import uvicorn
 import os
+from dotenv import load_dotenv
+
+# Ensure environment variables are loaded
+load_dotenv()
 
 app = FastAPI(title="Driver Log Analyser")
 
