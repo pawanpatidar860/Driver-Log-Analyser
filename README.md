@@ -7,8 +7,9 @@ An AI-powered tool to analyze driver logs and correlate errors with official doc
 - **Documentation RAG**: Supports PDF uploads and recursive HTML crawling for documentation context.
 - **Root Cause Analysis**: Classifies issues into:
   - **Configuration Issue**: Missing or incorrect parameters.
-  - **Documented / Known Behavior**: Explicitly mentioned limitations or behaviors.
   - **Code Issue**: Unidentified errors not found in documentation.
+  - **No Error Found**: No errors detected in logs.
+  - **Not Able to Identify the Error**: Analysis could not categorize the issue.
 - **Modern Tech Stack**: FastAPI, LangChain, FAISS, OpenRouter, and Tailwind CSS.
 
 ## Architecture

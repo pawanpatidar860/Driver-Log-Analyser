@@ -11,7 +11,7 @@ class LogParser:
         # Pattern to detect start of a log entry (usually starts with a date/timestamp)
         new_entry_pattern = re.compile(r'^\d{4}-\d{2}-\d{2}')
         # Pattern to detect if a line contains error info
-        error_indicator_pattern = re.compile(r'(ERROR|EXCEPTION|FATAL|CRITICAL|Traceback)', re.IGNORECASE)
+        error_indicator_pattern = re.compile(r'(ERROR|EXCEPTION|FATAL|CRITICAL|Traceback|Failed|Failure|caused by)', re.IGNORECASE)
 
         in_error = False
 
@@ -43,7 +43,7 @@ class LogParser:
             else:
                 # Not a new entry and no error indicator
                 if in_error:
-                    if len(current_block) < 50: # Avoid overly long blocks
+                    if len(current_block) < 100: # Increased limit to capture more context/stack traces
                         current_block.append(line)
                     else:
                         error_blocks.append("\n".join(current_block))

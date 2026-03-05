@@ -15,7 +15,7 @@ class DocAnalysisAgent:
         self.vector_store.add_texts(chunks)
         self.vector_store.save(self.index_path)
 
-    def search_relevant_context(self, query: str, k: int = 5) -> str:
+    def search_relevant_context(self, query: str, k: int = 30) -> str:
         self.vector_store.load(self.index_path)
         docs = self.vector_store.similarity_search(query, k=k)
         return "\n---\n".join([doc.page_content for doc in docs])

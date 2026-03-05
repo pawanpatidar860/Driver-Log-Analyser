@@ -7,6 +7,7 @@ class LogError(BaseModel):
     error_message: str
     driver_name: Optional[str] = None
     failing_operation: Optional[str] = None
+    failing_parameter: Optional[str] = None
     timestamp: Optional[str] = None
 
 class LogAnalysisResult(BaseModel):
@@ -16,7 +17,7 @@ class AnalysisRequest(BaseModel):
     doc_url: Optional[str] = None
 
 class RootCauseClassification(BaseModel):
-    category: str = Field(..., description="Configuration Issue, Documented / Known Behavior, or Code Issue")
+    category: str = Field(..., description="Configuration Issue, Code Issue, No Error Found, or Not Able to Identify the Error")
     explanation: str
     relevant_reference: Optional[str] = None
 
