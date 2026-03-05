@@ -26,8 +26,8 @@ class HTMLParser:
                 soup = BeautifulSoup(response.text, "html.parser")
 
                 # Extract text from current page
-                for script_or_style in soup(["script", "style"]):
-                    script_or_style.decompose()
+                for element in soup(["script", "style", "nav", "footer", "header"]):
+                    element.decompose()
 
                 text = soup.get_text(separator=" ", strip=True)
 

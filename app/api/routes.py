@@ -38,7 +38,16 @@ async def analyze(
             raise HTTPException(status_code=400, detail="Documentation (PDF or URL) must be provided")
 
         # 3. Get context for each error and decide root cause
-        query = " ".join([f"{e.error_type} {e.error_message}" for e in extracted_errors])
+        # Use failing_parameter if available for more targeted search
+        search_terms = []
+        for e in extracted_errors:
+            if e.failing_parameter:
+                search_terms.append(e.failing_parameter)
+            else:
+                # Fallback to error message if no specific parameter identified
+                search_terms.append(f"{e.error_type} {e.error_message}")
+
+        query = " ".join(list(set(search_terms))) # Use set to avoid redundant terms
         context = doc_service.get_context(query)
 
         root_cause = await decision_agent.decide(extracted_errors, context)

@@ -109,15 +109,21 @@
 
             // Category styling
             categoryEl.innerText = data.root_cause.category;
+            classificationCard.classList.remove('border-yellow-500', 'border-blue-500', 'border-red-500', 'border-green-500', 'border-gray-500');
+            categoryEl.classList.remove('text-yellow-600', 'text-blue-600', 'text-red-600', 'text-green-600', 'text-gray-600');
+
             if (data.root_cause.category === 'Configuration Issue') {
                 classificationCard.classList.add('border-yellow-500');
                 categoryEl.classList.add('text-yellow-600');
-            } else if (data.root_cause.category === 'Documented / Known Behavior') {
-                classificationCard.classList.add('border-blue-500');
-                categoryEl.classList.add('text-blue-600');
-            } else {
+            } else if (data.root_cause.category === 'Code Issue') {
                 classificationCard.classList.add('border-red-500');
                 categoryEl.classList.add('text-red-600');
+            } else if (data.root_cause.category === 'No Error Found') {
+                classificationCard.classList.add('border-green-500');
+                categoryEl.classList.add('text-green-600');
+            } else {
+                classificationCard.classList.add('border-gray-500');
+                categoryEl.classList.add('text-gray-600');
             }
 
             explanationEl.innerText = data.root_cause.explanation;
@@ -142,6 +148,7 @@
                     <div class="grid grid-cols-2 gap-4 text-xs text-gray-500">
                         <div><span class="font-semibold">Driver:</span> ${err.driver_name || 'Unknown'}</div>
                         <div><span class="font-semibold">Operation:</span> ${err.failing_operation || 'Unknown'}</div>
+                        <div><span class="font-semibold">Parameter:</span> ${err.failing_parameter || 'None'}</div>
                     </div>
                 `;
                 errorListEl.appendChild(div);
