@@ -1,76 +1,80 @@
-# Driver Log Analyser
+# Balaji Krishi Seva Kendra - Full-Stack E-Commerce Web App
 
-An AI-powered tool to analyze driver logs and correlate errors with official documentation to identify root causes.
+An AI-powered, modern, high-conversion web application for **Balaji Krishi Seva Kendra**, built using React, Tailwind CSS, and Supabase. This platform serves as a bridge between Rahul Patidar (the vendor) and local farmers, providing a seamless experience for purchasing seeds, fertilizers, and agricultural machinery.
 
-## Features
-- **Log Parsing**: Extracts and normalizes errors/exceptions from raw log files.
-- **Documentation RAG**: Supports PDF uploads and recursive HTML crawling for documentation context.
-- **Root Cause Analysis**: Classifies issues into:
-  - **Configuration Issue**: Missing or incorrect parameters.
-  - **Code Issue**: Unidentified errors not found in documentation.
-  - **No Error Found**: No errors detected in logs.
-  - **Not Able to Identify the Error**: Analysis could not categorize the issue.
-- **Modern Tech Stack**: FastAPI, LangChain, FAISS, OpenRouter, and Tailwind CSS.
+## 🌿 Agri-Tech Features
 
-## Architecture
-The project follows a modular architecture:
-- `app/api`: FastAPI routes.
-- `app/agents`: LangChain agents for log analysis, doc processing, and decision making.
-- `app/rag`: Vector store (FAISS) and embedding management.
-- `app/parsers`: Specialized parsers for Logs, PDFs, and HTML.
-- `app/services`: Orchestration logic.
-- `app/models`: Pydantic schemas for type safety.
+### 👨‍🌾 Customer Module
+- **Product Gallery**: Browse high-quality agricultural products by category (Seeds, Pesticides, Fertilizers, Machinery).
+- **Smart Filters**: Filter by **Brand** or **Crop Type** (Soyabean, Cotton, Wheat, etc.) to find exactly what your farm needs.
+- **Shopping Cart**: Easy add-to-cart functionality with quantity adjustments.
+- **User Profile**: Securely save your address and view your complete "My Orders" history.
+- **UPI Payment**: Integrated "Pay via UPI" with dynamic QR code generation and deep-linking to PhonePe, GPay, and Paytm.
+- **WhatsApp Support**: Floating "Chat with Rahul Patidar" button for direct expert advice.
 
-## Setup Instructions
+### 🏪 Vendor (Dukan Dar) Module
+- **Dedicated Dashboard**: Real-time overview of sales, orders, and inventory status.
+- **Inventory Management**: "Amazon Seller Central" style product management—add, edit, and delete products with image uploads.
+- **Low Stock Alerts**: Automatic notifications when a product's stock falls below 5 units.
+- **Incoming Orders**: Specialized view to manage and process customer orders efficiently.
+
+## 🛠️ Tech Stack
+- **Frontend**: React 19, Vite, Tailwind CSS (Custom Agri-Tech Theme)
+- **Icons**: Lucide-React
+- **Backend/Auth**: Supabase
+- **Animations**: Framer Motion
+- **Testing**: Vitest & React Testing Library
+
+## 🚀 Setup Instructions
 
 ### Prerequisites
-- Python 3.11+
-- OpenRouter API Key
+- Node.js (v18 or higher)
+- A Supabase Project (for Database & Storage)
 
 ### Installation
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/Driver-log-analyser.git
-   cd Driver-log-analyser
+   git clone <repository-url>
+   cd Driver-log-analyser # (Note: Branch name or project rename might apply)
    ```
 
-2. Create and activate a virtual environment:
+2. **Install dependencies**:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   npm install
    ```
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
+   *Refer to `.env.example` for the template.*
 
-4. Configure environment variables:
+4. **Start the development server**:
    ```bash
-   export OPENROUTER_API_KEY=your_key_here
-   # OR create a .env file:
-   # OPENROUTER_API_KEY=your_key_here
+   npm start # (Shortcut for npm run dev)
    ```
+   The app will be available at `http://localhost:5173`.
 
-### Running the Application
-Start the FastAPI server:
+### 🧪 Running Tests
+To run the test suite:
 ```bash
-uvicorn app.main:app --reload
+npm test
 ```
-The UI will be available at `http://localhost:8000`.
 
-## API Usage
-### POST `/api/analyze`
-Analyzes a log file against documentation.
-- **Parameters**:
-  - `log_file`: (.txt file) Mandatory.
-  - `doc_file`: (.pdf file) Optional.
-  - `doc_url`: (string) Optional URL.
-- **Response**: `FinalResponse` schema containing extracted errors and root cause classification.
+### 📦 Production Build
+To create a production-ready build:
+```bash
+npm run build
+```
 
-## Production Readiness
-- Environment-based configuration.
-- Structured logging with loguru.
-- Pydantic models for validation.
-- Decoupled components for scalability.
-- NO user authentication required.
+## 📋 Database Schema Recommendation
+For full functionality, set up the following tables in Supabase:
+- `products`: id, name, category, crop_type, price, stock, image_url, description.
+- `profiles`: id, full_name, role (vendor/customer), shop_name, address.
+- `orders`: id, customer_id, items (JSONB), total_amount, status, created_at.
+
+---
+**Developed for Rahul Patidar | Balaji Krishi Seva Kendra**
+*Innovating agriculture through technology.*
